@@ -4,7 +4,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.jumpingpxl.labymod.customhitboxes.util.Color;
 import de.jumpingpxl.labymod.customhitboxes.util.colorpicker.ColorUtils;
-import net.labymod.utils.ModColor;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -113,25 +112,23 @@ public class HexSelector extends ColorSelector {
 	public void renderTextField(Tessellator tessellator, BufferBuilder buffer,
 	                            MatrixStack matrixStack, int mouseX, int mouseY,
 	                            float partialTicks) {
-		int color = this.validHex ? ModColor.toRGB(85, 255, 85, 100) : ModColor.toRGB(255, 85, 85,
-				100);
+		Color color = validHex ? Color.fromRgba(85, 255, 85, 100) : Color.fromRgba(255, 85, 85, 100);
 		int minX = getTextField().x - 2;
 		int minY = getTextField().y - 2;
 		int maxX = minX + getTextField().getWidth() + 4;
 		int maxY = minY + getTextField().getHeightRealms() + 4;
-
-		float red = (float) (color >> 16 & 255) / 255F;
-		float green = (float) (color >> 8 & 255) / 255F;
-		float blue = (float) (color & 255) / 255F;
-		float alpha = (float) (color >> 24 & 255) / 255F;
 		RenderSystem.enableBlend();
 		RenderSystem.disableTexture();
 		RenderSystem.defaultBlendFunc();
 		buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-		buffer.pos(minX, maxY, 0).color(red, green, blue, alpha).endVertex();
-		buffer.pos(maxX, maxY, 0).color(red, green, blue, alpha).endVertex();
-		buffer.pos(maxX, minY, 0).color(red, green, blue, alpha).endVertex();
-		buffer.pos(minX, minY, 0).color(red, green, blue, alpha).endVertex();
+		buffer.pos(minX, maxY, 0).color(color.getRed(), color.getGreen(), color.getBlue(),
+				color.getAlpha()).endVertex();
+		buffer.pos(maxX, maxY, 0).color(color.getRed(), color.getGreen(), color.getBlue(),
+				color.getAlpha()).endVertex();
+		buffer.pos(maxX, minY, 0).color(color.getRed(), color.getGreen(), color.getBlue(),
+				color.getAlpha()).endVertex();
+		buffer.pos(minX, minY, 0).color(color.getRed(), color.getGreen(), color.getBlue(),
+				color.getAlpha()).endVertex();
 		tessellator.draw();
 		RenderSystem.enableTexture();
 		RenderSystem.disableBlend();
