@@ -58,8 +58,8 @@ public class RedSelector extends ColorSelector {
 	@Override
 	public void drawMarker(MatrixStack matrixStack, Tessellator tessellator, BufferBuilder buffer) {
 		buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
-		buffer.pos(getX() + ((getColor().getRgb() & 0xff0000) >> 16) * 64 / 255, getY(), 0).endVertex();
-		buffer.pos(getX() + ((getColor().getRgb() & 0xff0000) >> 16) * 64 / 255, getMaxY(), 0)
+		buffer.pos(getX() + ((getColor().getRgb() & 0xff0000) >> 16) * 64D / 255, getY(), 0).endVertex();
+		buffer.pos(getX() + ((getColor().getRgb() & 0xff0000) >> 16) * 64D / 255, getMaxY(), 0)
 				.endVertex();
 		tessellator.draw();
 	}

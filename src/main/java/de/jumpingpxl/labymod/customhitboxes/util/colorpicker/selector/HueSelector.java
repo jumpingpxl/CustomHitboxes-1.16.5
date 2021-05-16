@@ -61,8 +61,8 @@ public class HueSelector extends ColorSelector {
 	@Override
 	public void drawMarker(MatrixStack matrixStack, Tessellator tessellator, BufferBuilder buffer) {
 		buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
-		buffer.pos(getX() + getColor().getHue() * 64 / 360, getY(), 0).endVertex();
-		buffer.pos(getX() + getColor().getHue() * 64 / 360, getMaxY(), 0).endVertex();
+		buffer.pos(getX() + getColor().getHue() * 64D / 360, getY(), 0).endVertex();
+		buffer.pos(getX() + getColor().getHue() * 64D / 360, getMaxY(), 0).endVertex();
 		tessellator.draw();
 	}
 

@@ -58,8 +58,8 @@ public class BrightnessSelector extends ColorSelector {
 	@Override
 	public void drawMarker(MatrixStack matrixStack, Tessellator tessellator, BufferBuilder buffer) {
 		buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
-		buffer.pos(getX() + getColor().getBrightness() * 64 / 100, getY(), 0).endVertex();
-		buffer.pos(getX() + getColor().getBrightness() * 64 / 100, getMaxY(), 0).endVertex();
+		buffer.pos(getX() + getColor().getBrightness() * 64D / 100, getY(), 0).endVertex();
+		buffer.pos(getX() + getColor().getBrightness() * 64D / 100, getMaxY(), 0).endVertex();
 		tessellator.draw();
 	}
 
