@@ -6,7 +6,6 @@ import de.jumpingpxl.labymod.customhitboxes.CustomHitboxes;
 import de.jumpingpxl.labymod.customhitboxes.util.Color;
 import de.jumpingpxl.labymod.customhitboxes.util.EntityType;
 import de.jumpingpxl.labymod.customhitboxes.util.Settings;
-import jdk.internal.org.objectweb.asm.Opcodes;
 import net.labymod.api.permissions.Permissions;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
@@ -32,8 +31,7 @@ public class MixinEntityRendererManager {
 	private static final Settings SETTINGS = CustomHitboxes.getSettings();
 
 	@Redirect(method = "renderEntityStatic", at = @At(value = "FIELD",
-			target = "Lnet/minecraft/client/renderer/entity/EntityRendererManager;debugBoundingBox:Z",
-			opcode = Opcodes.GETFIELD))
+			target = "Lnet/minecraft/client/renderer/entity/EntityRendererManager;debugBoundingBox:Z"))
 	public boolean debugBoundingBox(EntityRendererManager rendererManager) {
 		return rendererManager.isDebugBoundingBox() || SETTINGS.isEnabled();
 	}
