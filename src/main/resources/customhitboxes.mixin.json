@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "de.jumpingpxl.labymod.customhitboxes.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "example.refmap.json",
+  "verbose": false,
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "MixinEntityRendererManager"
+  ]
+}
