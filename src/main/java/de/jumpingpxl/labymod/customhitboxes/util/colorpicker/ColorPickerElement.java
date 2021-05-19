@@ -2,11 +2,12 @@ package de.jumpingpxl.labymod.customhitboxes.util.colorpicker;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import de.jumpingpxl.labymod.customhitboxes.util.Color;
-import net.labymod.settings.elements.ControlElement;
+import de.jumpingpxl.labymod.customhitboxes.util.dynamicelements.DynamicSettingsElement;
 import net.labymod.utils.Consumer;
+import net.labymod.utils.Material;
 import net.minecraft.client.renderer.Tessellator;
 
-public class ColorPickerElement extends ControlElement {
+public class ColorPickerElement extends DynamicSettingsElement {
 
 	private static final ColorUtils COLOR_UTILS = new ColorUtils();
 
@@ -14,25 +15,25 @@ public class ColorPickerElement extends ControlElement {
 	private final Color color;
 	private boolean mouseOverPreview;
 
-	private ColorPickerElement(String elementName, IconData iconData, Color color,
+	private ColorPickerElement(String elementName, Material material, Color color,
 	                           Consumer<Integer> callback) {
-		super(elementName, iconData);
+		super(elementName, material);
 		this.color = color;
 		this.callback = callback;
 	}
 
-	public static ColorPickerElement create(String elementName, IconData iconData, Color color,
+	public static ColorPickerElement create(String elementName, Material material, Color color,
 	                                        Consumer<Integer> callback) {
-		return new ColorPickerElement(elementName, iconData, color, callback);
+		return new ColorPickerElement(elementName, material, color, callback);
 	}
 
 	@Override
-	public void draw(MatrixStack matrixStack, int x, int y, int maxX, int maxY, int mouseX,
-	                 int mouseY) {
-		super.draw(matrixStack, x, y, maxX, maxY, mouseX, mouseY);
+	public void draw(MatrixStack matrixStack, int preX, int preY, int preMaxX, int preMaxY,
+	                 int mouseX, int mouseY) {
+		super.draw(matrixStack, preX, preY, preMaxX, preMaxY, mouseX, mouseY);
 
 		int previewWidth = getObjectWidth();
-		int previewHeight = 21;
+		int previewHeight = 20;
 		int previewX = maxX - previewWidth - 1;
 		int previewY = y + 1;
 		int previewMaxX = previewX + previewWidth;

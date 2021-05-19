@@ -1,13 +1,12 @@
 package de.jumpingpxl.labymod.customhitboxes.util;
 
-import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import de.jumpingpxl.labymod.customhitboxes.CustomHitboxes;
 import de.jumpingpxl.labymod.customhitboxes.util.colorpicker.ColorPickerElement;
-import net.labymod.settings.elements.BooleanElement;
-import net.labymod.settings.elements.ControlElement;
+import de.jumpingpxl.labymod.customhitboxes.util.dynamicelements.DynamicBooleanElement;
+import de.jumpingpxl.labymod.customhitboxes.util.dynamicelements.DynamicHeaderElement;
+import de.jumpingpxl.labymod.customhitboxes.util.dynamicelements.DynamicSettingsElement;
 import net.labymod.settings.elements.HeaderElement;
-import net.labymod.settings.elements.ListContainerElement;
 import net.labymod.settings.elements.SettingsElement;
 import net.labymod.utils.Material;
 
@@ -89,182 +88,146 @@ public class Settings {
 	public void fillSettings(List<SettingsElement> settingsElements) {
 		settingsElements.add(new HeaderElement("§eCustomHitboxes v" + CustomHitboxes.VERSION));
 		settingsElements.add(
-				new BooleanElement("§6Enable", new ControlElement.IconData(Material.LEVER), newValue -> {
+				DynamicBooleanElement.create("§6Enable", Material.LEVER, enabled, newValue -> {
 					enabled = newValue;
 					getConfig().addProperty("enabled", newValue);
 					saveConfig();
-				}, enabled));
-		settingsElements.add(new HeaderElement(""));
+				}));
+		settingsElements.add(DynamicHeaderElement.create(10, ""));
 		settingsElements.add(
-				new BooleanElement("§6Eye Height Box", new ControlElement.IconData(Material.LEVER),
+				DynamicBooleanElement.create("§6Eye Height Box", Material.LEVER, eyeHeightBoxEnabled,
 						newValue -> {
 							eyeHeightBoxEnabled = newValue;
 							getConfig().addProperty("eyeHeightBoxEnabled", newValue);
 							saveConfig();
-						}, eyeHeightBoxEnabled));
-		settingsElements.add(ColorPickerElement.create("§6Eye Height Box Color",
-				new ControlElement.IconData(Material.LIME_DYE), eyeHeightBoxColor, newColor -> {
-					eyeHeightBoxColor = Color.fromRgb(newColor);
-					getConfig().addProperty("eyeHeightBoxColor", newColor);
-					saveConfig();
-				}));
-		settingsElements.add(new HeaderElement(""));
+						}));
 		settingsElements.add(
-				ColorPickerElement.create("§6Hitbox Color", new ControlElement.IconData(Material.LIME_DYE),
-						color, newColor -> {
-							color = Color.fromRgb(newColor);
-							getConfig().addProperty("color", newColor);
+				ColorPickerElement.create("§6Eye Height Box Color", Material.LIME_DYE, eyeHeightBoxColor,
+						newColor -> {
+							eyeHeightBoxColor = Color.fromRgb(newColor);
+							getConfig().addProperty("eyeHeightBoxColor", newColor);
 							saveConfig();
 						}));
-
-		ListContainerElement playerContainer = new ListContainerElement("§6Players",
-				new ControlElement.IconData(Material.DIAMOND_SWORD));
-		List<SettingsElement> playerSubSettings = Lists.newArrayList();
-		playerSubSettings.add(new HeaderElement("§eCustomHitboxes §7» §ePlayers"));
-		playerSubSettings.add(new BooleanElement("§6Enable Player Hitboxes",
-				new ControlElement.IconData(Material.DIAMOND_SWORD), newValue -> {
-			playersEnabled = newValue;
-			getConfig().addProperty("playersEnabled", newValue);
-			saveConfig();
-		}, playersEnabled));
-		playerSubSettings.add(new HeaderElement(""));
-		playerSubSettings.add(
-				new BooleanElement("§6Own Hitbox Visible", new ControlElement.IconData(Material.LEVER),
-						newValue -> {
-							selfEnabled = newValue;
-							getConfig().addProperty("selfEnabled", newValue);
-							saveConfig();
-						}, selfEnabled));
-		playerSubSettings.add(
-				new BooleanElement("§6Custom Color", new ControlElement.IconData(Material.LEVER),
-						newValue -> {
-							ownColorPlayers = newValue;
-							getConfig().addProperty("ownColorPlayers", newValue);
-							saveConfig();
-						}, ownColorPlayers));
-		playerSubSettings.add(ColorPickerElement.create("§6Custom Player Color",
-				new ControlElement.IconData(Material.LIME_DYE), getPlayerColor(), newColor -> {
-					playerColor = Color.fromRgb(newColor);
-					getConfig().addProperty("playerColor", newColor);
+		settingsElements.add(DynamicHeaderElement.create(10, ""));
+		settingsElements.add(
+				ColorPickerElement.create("§6Hitbox Color", Material.LIME_DYE, color, newColor -> {
+					color = Color.fromRgb(newColor);
+					getConfig().addProperty("color", newColor);
 					saveConfig();
 				}));
-		playerContainer.getSubSettings().getElements().addAll(playerSubSettings);
-		settingsElements.add(playerContainer);
 
-		ListContainerElement animalContainer = new ListContainerElement("§6Animals",
-				new ControlElement.IconData(Material.PIG_SPAWN_EGG));
-		List<SettingsElement> animalSubSettings = Lists.newArrayList();
-		animalSubSettings.add(new HeaderElement("§eCustomHitboxes §7» §eAnimals"));
-		animalSubSettings.add(new BooleanElement("§6Enable Animal Hitboxes",
-				new ControlElement.IconData(Material.PIG_SPAWN_EGG), newValue -> {
-			animalsEnabled = newValue;
-			getConfig().addProperty("animalsEnabled", newValue);
-			saveConfig();
-		}, animalsEnabled));
-		animalSubSettings.add(new HeaderElement(""));
-		animalSubSettings.add(
-				new BooleanElement("§6Custom Color", new ControlElement.IconData(Material.LEVER),
-						newValue -> {
-							ownColorAnimals = newValue;
-							getConfig().addProperty("ownColorAnimals", newValue);
-							saveConfig();
-						}, ownColorAnimals));
-		animalSubSettings.add(ColorPickerElement.create("§6Custom Animal Color",
-				new ControlElement.IconData(Material.LIME_DYE), getAnimalColor(), newColor -> {
-					animalColor = Color.fromRgb(newColor);
-					getConfig().addProperty("animalColor", newColor);
-					saveConfig();
-				}));
-		animalContainer.getSubSettings().getElements().addAll(animalSubSettings);
-		settingsElements.add(animalContainer);
+		settingsElements.add(DynamicSettingsElement.create("§6Players", Material.DIAMOND_SWORD)
+				.addSubSettings(
+						DynamicBooleanElement.create("§6Enable Player Hitboxes", Material.DIAMOND_SWORD,
+								playersEnabled, newValue -> {
+									playersEnabled = newValue;
+									getConfig().addProperty("playersEnabled", newValue);
+									saveConfig();
+								}), DynamicHeaderElement.create(10, ""),
+						DynamicBooleanElement.create("§6Own Hitbox Visible", Material.LEVER, selfEnabled,
+								newValue -> {
+									selfEnabled = newValue;
+									getConfig().addProperty("selfEnabled", newValue);
+									saveConfig();
+								}), DynamicBooleanElement.create("§6Custom Color", Material.LEVER, ownColorPlayers,
+								newValue -> {
+									ownColorPlayers = newValue;
+									getConfig().addProperty("ownColorPlayers", newValue);
+									saveConfig();
+								}),
+						ColorPickerElement.create("§6Custom Player Color", Material.LIME_DYE, getPlayerColor(),
+								newColor -> {
+									playerColor = Color.fromRgb(newColor);
+									getConfig().addProperty("playerColor", newColor);
+									saveConfig();
+								})));
 
-		ListContainerElement mobContainer = new ListContainerElement("§6Mobs",
-				new ControlElement.IconData(Material.CREEPER_SPAWN_EGG));
-		List<SettingsElement> mobSubSettings = Lists.newArrayList();
-		mobSubSettings.add(new HeaderElement("§eCustomHitboxes §7» §eMobs"));
-		mobSubSettings.add(new BooleanElement("§6Enable Mob Hitboxes",
-				new ControlElement.IconData(Material.CREEPER_SPAWN_EGG), newValue -> {
-			mobsEnabled = newValue;
-			getConfig().addProperty("mobsEnabled", newValue);
-			saveConfig();
-		}, mobsEnabled));
-		mobSubSettings.add(new HeaderElement(""));
-		mobSubSettings.add(
-				new BooleanElement("§6Custom Color", new ControlElement.IconData(Material.LEVER),
-						newValue -> {
-							ownColorMobs = newValue;
-							getConfig().addProperty("ownColorMobs", newValue);
-							saveConfig();
-						}, ownColorMobs));
-		mobSubSettings.add(ColorPickerElement.create("§6Custom Mob Color",
-				new ControlElement.IconData(Material.LIME_DYE), getMobColor(), newColor -> {
-					mobColor = Color.fromRgb(newColor);
-					getConfig().addProperty("mobColor", newColor);
-					saveConfig();
-				}));
-		mobContainer.getSubSettings().getElements().addAll(mobSubSettings);
-		settingsElements.add(mobContainer);
+		settingsElements.add(DynamicSettingsElement.create("§6Animals", Material.PIG_SPAWN_EGG)
+				.addSubSettings(
+						DynamicBooleanElement.create("§6Enable Animal Hitboxes", Material.PIG_SPAWN_EGG,
+								animalsEnabled, newValue -> {
+									animalsEnabled = newValue;
+									getConfig().addProperty("animalsEnabled", newValue);
+									saveConfig();
+								}), DynamicHeaderElement.create(10, ""),
+						DynamicBooleanElement.create("§6Custom Color", Material.LEVER, ownColorAnimals,
+								newValue -> {
+									ownColorAnimals = newValue;
+									getConfig().addProperty("ownColorAnimals", newValue);
+									saveConfig();
+								}),
+						ColorPickerElement.create("§6Custom Animal Color", Material.LIME_DYE, getAnimalColor(),
+								newColor -> {
+									animalColor = Color.fromRgb(newColor);
+									getConfig().addProperty("animalColor", newColor);
+									saveConfig();
+								})));
 
-		ListContainerElement dropContainer = new ListContainerElement("§6Drops",
-				new ControlElement.IconData(Material.APPLE));
-		List<SettingsElement> dropSubSettings = Lists.newArrayList();
-		dropSubSettings.add(new HeaderElement("§eCustomHitboxes §7» §eDrops"));
-		dropSubSettings.add(
-				new BooleanElement("§6Enable Drop Hitboxes", new ControlElement.IconData(Material.APPLE),
-						newValue -> {
-							dropsEnabled = newValue;
-							getConfig().addProperty("dropsEnabled", newValue);
-							saveConfig();
-						}, dropsEnabled));
-		dropSubSettings.add(new HeaderElement(""));
-		dropSubSettings.add(
-				new BooleanElement("§6Custom Color", new ControlElement.IconData(Material.LEVER),
-						newValue -> {
-							ownColorDrops = newValue;
-							getConfig().addProperty("ownColorDrops", newValue);
-							saveConfig();
-						}, ownColorDrops));
-		dropSubSettings.add(ColorPickerElement.create("§6Custom Drop Color",
-				new ControlElement.IconData(Material.LIME_DYE), getDropColor(), newColor -> {
-					dropColor = Color.fromRgb(newColor);
-					getConfig().addProperty("dropColor", newColor);
-					saveConfig();
-				}));
-		dropContainer.getSubSettings().getElements().addAll(dropSubSettings);
-		settingsElements.add(dropContainer);
+		settingsElements.add(DynamicSettingsElement.create("§6Mobs", Material.CREEPER_SPAWN_EGG)
+				.addSubSettings(
+						DynamicBooleanElement.create("§6Enable Mob Hitboxes", Material.CREEPER_SPAWN_EGG,
+								mobsEnabled, newValue -> {
+									mobsEnabled = newValue;
+									getConfig().addProperty("mobsEnabled", newValue);
+									saveConfig();
+								}), DynamicHeaderElement.create(10, ""),
+						DynamicBooleanElement.create("§6Custom Color", Material.LEVER, ownColorMobs,
+								newValue -> {
+									ownColorMobs = newValue;
+									getConfig().addProperty("ownColorMobs", newValue);
+									saveConfig();
+								}),
+						ColorPickerElement.create("§6Custom Mob Color", Material.LIME_DYE, getMobColor(),
+								newColor -> {
+									mobColor = Color.fromRgb(newColor);
+									getConfig().addProperty("mobColor", newColor);
+									saveConfig();
+								})));
 
-		ListContainerElement throwableContainer = new ListContainerElement("§6Throwables",
-				new ControlElement.IconData(Material.SPLASH_POTION));
-		List<SettingsElement> throwableSubSettings = Lists.newArrayList();
-		throwableSubSettings.add(new HeaderElement("§eCustomHitboxes §7» §eThrowables"));
-		throwableSubSettings.add(new BooleanElement("§6Enable Throwable Hitbox",
-				new ControlElement.IconData(Material.SPLASH_POTION), newValue -> {
-			throwablesEnabled = newValue;
-			getConfig().addProperty("throwablesEnabled", newValue);
-			saveConfig();
-		}, throwablesEnabled));
-		throwableSubSettings.add(new HeaderElement(""));
-		throwableSubSettings.add(
-				new BooleanElement("§6Custom Color", new ControlElement.IconData(Material.LEVER),
-						newValue -> {
-							ownColorThrowables = newValue;
-							getConfig().addProperty("ownColorThrowables", newValue);
-							saveConfig();
-						}, ownColorThrowables));
-		throwableSubSettings.add(ColorPickerElement.create("§6Custom Throwable Color",
-				new ControlElement.IconData(Material.LIME_DYE), getThrowableColor(), newColor -> {
-					throwableColor = Color.fromRgb(newColor);
-					getConfig().addProperty("throwableColor", newColor);
-					saveConfig();
-				}));
-		throwableContainer.getSubSettings().getElements().addAll(throwableSubSettings);
-		settingsElements.add(throwableContainer);
-		settingsElements.add(new HeaderElement(""));
-		settingsElements.add(new HeaderElement("§4§lIMPORTANT"));
-		settingsElements.add(new HeaderElement(
-				"§cOnly a selection of entities is supported for colored & permanent hitboxes."));
-		settingsElements.add(new HeaderElement("§cTo view colored hitboxes of all entities (for "
-				+ "example ArmorStands & MineCarts), press F3+B"));
+		settingsElements.add(DynamicSettingsElement.create("§6Drops", Material.APPLE)
+				.addSubSettings(
+						DynamicBooleanElement.create("§6Enable Drop Hitboxes", Material.APPLE, dropsEnabled,
+								newValue -> {
+									dropsEnabled = newValue;
+									getConfig().addProperty("dropsEnabled", newValue);
+									saveConfig();
+								}), DynamicHeaderElement.create(10, ""),
+						DynamicBooleanElement.create("§6Custom Color", Material.LEVER, ownColorDrops,
+								newValue -> {
+									ownColorDrops = newValue;
+									getConfig().addProperty("ownColorDrops", newValue);
+									saveConfig();
+								}),
+						ColorPickerElement.create("§6Custom Drop Color", Material.LIME_DYE, getDropColor(),
+								newColor -> {
+									dropColor = Color.fromRgb(newColor);
+									getConfig().addProperty("dropColor", newColor);
+									saveConfig();
+								})));
+
+		settingsElements.add(DynamicSettingsElement.create("§6Throwables", Material.SPLASH_POTION)
+				.addSubSettings(
+						DynamicBooleanElement.create("§6Enable Throwable Hitbox", Material.SPLASH_POTION,
+								throwablesEnabled, newValue -> {
+									throwablesEnabled = newValue;
+									getConfig().addProperty("throwablesEnabled", newValue);
+									saveConfig();
+								}), DynamicHeaderElement.create(10, ""),
+						DynamicBooleanElement.create("§6Custom Color", Material.LEVER, ownColorThrowables,
+								newValue -> {
+									ownColorThrowables = newValue;
+									getConfig().addProperty("ownColorThrowables", newValue);
+									saveConfig();
+								}), ColorPickerElement.create("§6Custom Throwable Color", Material.LIME_DYE,
+								getThrowableColor(), newColor -> {
+									throwableColor = Color.fromRgb(newColor);
+									getConfig().addProperty("throwableColor", newColor);
+									saveConfig();
+								})));
+		settingsElements.add(DynamicHeaderElement.create(15, "", "§4§lIMPORTANT",
+				"§cOnly a selection of entities is supported for\n§ccolored & permanent hitboxes.",
+				"§cTo view colored hitboxes of all entities (for example\n§cArmorStands & MineCarts), "
+						+ "press F3+B"));
 	}
 
 	public boolean isEnabled() {
