@@ -5,7 +5,7 @@
   "mainClass": "de.jumpingpxl.labymod.customhitboxes.CustomHitboxes",
   "transformerClass": "de.jumpingpxl.labymod.customhitboxes.CustomHitboxTransformer",
   "description": "This add-on allows you to permanently display and change the color for all kinds of hitboxes.",
-  "version": 1,
-  "category": 2,
+  "version": 2,
+  "category": 4,
   "icon": "https://nicomiddendorf.de/jumpingaddon/CustomHitboxIcon.png"
 }
