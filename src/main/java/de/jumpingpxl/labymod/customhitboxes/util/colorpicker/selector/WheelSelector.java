@@ -1,15 +1,20 @@
 package de.jumpingpxl.labymod.customhitboxes.util.colorpicker.selector;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import de.jumpingpxl.labymod.customhitboxes.util.Color;
 import de.jumpingpxl.labymod.customhitboxes.util.colorpicker.ColorUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class WheelSelector extends ColorSelector {
+
+	private static final ResourceLocation ICONS = new ResourceLocation("textures/gui/icons.png");
 
 	private WheelSelector(ColorUtils colorUtils, Color color, int x, int y) {
 		super(colorUtils, color, x, y);
@@ -46,17 +51,9 @@ public class WheelSelector extends ColorSelector {
 	@Override
 	public void drawMarker(MatrixStack matrixStack, Tessellator tessellator, BufferBuilder buffer) {
 		int dist = getColor().getSaturation() / 2;
-		int x = getX() + (int) (Math.cos(Math.toRadians(getColor().getHue())) * dist - 7) + 5;
-		int y = getY() + (int) (Math.sin(Math.toRadians(getColor().getHue())) * dist) - 7 + 5;
-		double height = 4;
-		double width = 4;
-
-		buffer.begin(GL11.GL_LINE_LOOP, DefaultVertexFormats.POSITION);
-		buffer.pos(x, y + height, 0).endVertex();
-		buffer.pos(x + width, y + height, 0).endVertex();
-		buffer.pos(x + width, y, 0).endVertex();
-		buffer.pos(x, y, 0).endVertex();
-		tessellator.draw();
+		double x = getX() + (Math.cos(Math.toRadians(getColor().getHue())) * dist - 8);
+		double y = getY() + (Math.sin(Math.toRadians(getColor().getHue())) * dist - 8);
+		drawCrossHair(tessellator, buffer, x, y);
 	}
 
 	@Override
@@ -76,7 +73,7 @@ public class WheelSelector extends ColorSelector {
 		return dx * dx + dy * dy <= 50 * 50;
 	}
 
-	public void update(double dx, double dy) {
+	private void update(double dx, double dy) {
 		getColor().setHue((int) Math.toDegrees(Math.atan2(dy, dx)));
 		if (getColor().getHue() < 0) {
 			getColor().setHue(getColor().getHue() + 360);
@@ -89,5 +86,18 @@ public class WheelSelector extends ColorSelector {
 
 		getColor().setSaturation(dist * 2);
 		getColor().setRgb();
+	}
+
+	private void drawCrossHair(Tessellator tessellator, BufferBuilder buffer, double x, double y) {
+		RenderSystem.enableTexture();
+		Minecraft.getInstance().getTextureManager().bindTexture(ICONS);
+		float offset = 0.00390625F;
+		buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+		buffer.pos(x, y + 16D, 0D).tex(0F, 14 * offset).endVertex();
+		buffer.pos(x + 16D, y + 16D, 0D).tex(14 * offset, 14 * offset).endVertex();
+		buffer.pos(x + 16D, y, 0D).tex(14 * offset, 0F).endVertex();
+		buffer.pos(x, y, 0D).tex(0F, 0F).endVertex();
+		tessellator.draw();
+		Minecraft.getInstance().getTextureManager().deleteTexture(ICONS);
 	}
 }
