@@ -2,7 +2,7 @@
   "required": true,
   "package": "de.jumpingpxl.labymod.customhitboxes.mixin",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "example.refmap.json",
+  "refmap": "customhitboxes.refmap.json",
   "verbose": false,
   "injectors": {
     "defaultRequire": 1
