@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CustomHitboxes extends LabyModAddon {
 
-	public static final String VERSION = "2";
+	public static final String VERSION = "3";
 
 	private static Settings settings;
 
