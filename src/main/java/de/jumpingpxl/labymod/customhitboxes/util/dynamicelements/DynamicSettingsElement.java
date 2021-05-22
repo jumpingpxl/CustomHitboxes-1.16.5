@@ -9,9 +9,11 @@ import net.labymod.utils.DrawUtils;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 
@@ -111,6 +113,7 @@ public class DynamicSettingsElement extends SettingsElement {
 		if (!subSettingList.isEmpty()) {
 			if (subSettingsButton.isMouseOver(mouseX, mouseY)) {
 				subSettingsButton.onPress();
+				subSettingsButton.playDownSound(Minecraft.getInstance().getSoundHandler());
 			}
 
 			for (SettingsElement settingsElement : subSettingList) {

@@ -6,6 +6,7 @@ import net.labymod.main.LabyMod;
 import net.labymod.utils.DrawUtils;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
@@ -80,6 +81,7 @@ public class DynamicBooleanElement extends DynamicSettingsElement {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		if (toggleButton.isMouseOver(mouseX, mouseY)) {
 			toggleButton.onPress();
+			toggleButton.playDownSound(Minecraft.getInstance().getSoundHandler());
 		}
 	}
 }
